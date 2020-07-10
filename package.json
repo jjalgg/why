@@ -12,7 +12,7 @@
     "@graphql-tools/load-files": "^6.0.11",
     "@graphql-tools/merge": "^6.0.11",
     "@koa/cors": "^3.1.0",
-    "@prisma/client": "^2.0.0",
+    "@prisma/client": "^2.2.0",
     "apollo-server": "^2.13.1",
     "apollo-server-koa": "^2.15.0",
     "app-root-path": "^3.0.0",
@@ -38,7 +38,8 @@
   "scripts": {
     "prestart": "babel src -d build && cd src && npx copy api/**/*.graphql ../build/api",
     "start": "cross-env NODE_ENV=production PORT=80 node ./node_modules/pm2/bin/pm2 start build/server.js -i -1",
-    "poststart":  "node ./node_modules/pm2/bin/pm2 logs",
+    "dev": "nodemon --exec babel-node build/server.js",
+    "poststart": "npx prisma generate && node ./node_modules/pm2/bin/pm2 logs",
     "migrate": "npx prisma migrate save --name init --experimental && npx prisma migrate up --experimental",
     "generate": "npx prisma generate",
     "build": "babel src -d build",
@@ -46,6 +47,6 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.10.4",
-    "@prisma/cli": "^2.0.0"
+    "@prisma/cli": "^2.2.0"
   }
 }

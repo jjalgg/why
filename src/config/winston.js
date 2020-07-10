@@ -13,7 +13,7 @@ const options = {
   // log파일
   file: {
     level: "info",
-    filename: `${appRoot}/src/config/logs/koaOps.log`, // 로그파일을 남길 경로
+    filename: `${appRoot}/logs/koaOps.log`, // 로그파일을 남길 경로
     handleExceptions: true,
     json: false,
     maxsize: 5242880, // 5MB

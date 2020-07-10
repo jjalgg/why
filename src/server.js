@@ -75,6 +75,7 @@ server.applyMiddleware({ app, path: "/api/ql", cors: false });
 
 const httpServer = app.listen(PORT, () => {
   logger.info(`app is listening on port ${PORT}`);
+  console.log(`app is listening on port ${PORT}`);
 });
 
 server.installSubscriptionHandlers(httpServer);

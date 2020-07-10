@@ -1,0 +1,9 @@
+type Mutation {
+  manageContent(
+    contentId: String
+    cause: String
+    action: String
+    type: String
+    term: Int
+  ): String!
+}

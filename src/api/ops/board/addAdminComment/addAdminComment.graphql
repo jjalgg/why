@@ -1,0 +1,3 @@
+type Mutation {
+  addAdminComment(postId: String!, text: String!): Boolean!
+}

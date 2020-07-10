@@ -1,0 +1,3 @@
+type Mutation {
+  likePost(postId: String!): Boolean!
+}

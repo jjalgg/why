@@ -1,0 +1,13 @@
+type Mutation {
+  editReport(
+    id: String
+    contentId: String
+    suspectId: String
+    reoprterId: String
+    cause: String
+    done: Boolean
+    action: String
+    type: String
+    term: Int
+  ): String!
+}

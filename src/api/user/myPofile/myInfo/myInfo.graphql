@@ -1,0 +1,12 @@
+type Info {
+  userInfo: User
+  followerCount: Int
+  postCount: Int
+  commentCount: Int
+  postLikeCount: Int
+  commentLikeCount: Int
+}
+
+type Query {
+  myInfo: Info
+}

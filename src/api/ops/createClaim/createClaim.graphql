@@ -1,0 +1,8 @@
+type Mutation {
+  createClaim(
+    type: String!
+    title: String!
+    text: String!
+    email: String!
+  ): Boolean!
+}

@@ -1,0 +1,214 @@
+type User {
+  id: ID!
+  createdAt: String!
+  email: String
+  logInId: String!
+  nick: String!
+  lastLoggedIn: Float
+  isForbidden: Boolean!
+  forbidden: [Forbidden]
+  password: String!
+  role: Role!
+  post: [Post!]!
+  postLike: [PostLike!]!
+  postDis: [PostDis!]!
+  comment: [Comment!]!
+  commentDis: [CommentDis!]!
+  commentLike: [CommentLike!]!
+  followers: [User!]!
+  following: [User!]!
+  bannedBy: [User!]!
+  banning: [User]
+  reportCounts: Int
+  claim: [Claim!]!
+  banList: [String]
+  bookMark: [BookMark]
+  adminPost: [AdminPost]
+  adminComment: [AdminComment]
+  Notice: [Notice]
+}
+
+type Post {
+  id: ID!
+  published: Boolean!
+  postNumber: Int
+  createdAt: String!
+  updatedAt: String!
+  title: String
+  url: [String!]!
+  text: String
+  comments: [Comment!]!
+  postLikes: [PostLike!]!
+  postdisLikes: [PostDis!]!
+  author: User
+  authorId: String
+  category: String
+  likeCounts: Int
+  hits: Int
+  reportCounts: Int
+  isHtml: Boolean
+  allowComments: Boolean
+  penalty: [Penalty!]!
+
+  isLiked: Boolean
+  commentsCount: Int
+}
+
+type Comment {
+  id: ID!
+  nick: String!
+  createdAt: String!
+  updatedAt: String!
+  published: Boolean!
+  text: String!
+  likes: [CommentLike!]!
+  disLikes: [CommentDis!]!
+  author: User!
+  authorId: String!
+  post: Post!
+  postId: String!
+  likeCounts: Int!
+  reportCounts: Int!
+  penalty: [Penalty!]!
+}
+
+type PostLike {
+  id: ID!
+  createdAt: String!
+  author: User!
+  authorId: String!
+  post: Post!
+  postId: Int!
+}
+
+type CommentLike {
+  id: ID!
+  createdAt: String!
+  author: User!
+  authorId: String!
+  comment: Comment!
+  commentId: Int!
+}
+
+type PostDis {
+  id: ID!
+  createdAt: String!
+  author: User!
+  authorId: String!
+  post: Post!
+  postId: Int!
+}
+
+type CommentDis {
+  id: ID!
+  createdAt: String!
+  author: User!
+  authorId: String!
+  comment: Comment!
+  commentId: Int!
+}
+
+type CodeConfirm {
+  id: ID!
+  email: String
+  logInId: String
+  code: String
+}
+
+type Claim {
+  createdAt: String!
+  id: ID!
+  postNumber: Int!
+  type: String!
+  title: String!
+  text: String!
+  email: String!
+  author: User
+  authorId: String
+}
+
+type BookMark {
+  id: ID!
+  createdAt: String!
+  postId: String!
+  author: User
+  authorId: String
+}
+
+type Forbidden {
+  id: ID!
+  createdAt: String!
+  subjectId: String
+  subject: User
+  original: String
+  cause: String!
+  where: String!
+  term: Float!
+  released: Boolean!
+  marshal: String
+}
+
+type Report {
+  id: ID!
+  reporter: String!
+  suspect: String
+  createdAt: String!
+  report: String
+  where: String
+  type: String
+  original: String
+  done: Boolean!
+  penalty: [Penalty!]!
+}
+
+type Penalty {
+  id: ID!
+  createdAt: String!
+  postId: String
+  post: Post
+  commentId: String
+  comment: Comment
+  reportId: String
+  report: Report
+  cause: String
+  original: String
+  marshal: String
+  punishment: String
+  suspect: String
+}
+
+type AdminPost {
+  authorId: String
+  createdAt: String!
+  id: ID!
+  text: String
+  title: String
+  comment: [AdminComment]
+}
+
+type AdminComment {
+  authorId: String
+  createdAt: String!
+  id: ID!
+  text: String
+  postId: String
+  post: AdminPost
+}
+
+type Notice {
+  id: ID!
+  createdAt: String!
+  type: String
+  text: String
+  title: String
+  postNumber: Int
+  ownerId: String
+  owner: User
+}
+
+enum Role {
+  USER
+  MARSHAL
+  ADMIN
+  VIEWER
+}

@@ -1,0 +1,11 @@
+type Detail {
+  title: String
+  text: String
+  createdAt: String
+  url: [String]
+  published: Boolean
+}
+
+type Query {
+  seeDetail(id: String!, type: String!): Detail
+}

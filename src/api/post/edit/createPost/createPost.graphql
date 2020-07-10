@@ -1,0 +1,9 @@
+type Mutation {
+  createPost(
+    title: String!
+    text: String!
+    url: [String]
+    category: String!
+    isHtml: Boolean
+  ): Boolean!
+}

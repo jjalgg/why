@@ -1,0 +1,223 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BookMark {
+  authorId  String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  postId    String
+  author    User?    @relation(fields: [authorId], references: [id])
+}
+
+model Claim {
+  authorId   String?
+  createdAt  DateTime @default(now())
+  email      String
+  id         String   @id @default(cuid())
+  postNumber Int      @default(autoincrement())
+  text       String
+  title      String
+  type       String
+  author     User?    @relation(fields: [authorId], references: [id])
+}
+
+model CodeConfirm {
+  code    String?
+  logInId String?   @unique
+  email   String?   @unique
+  id      String    @id @default(cuid())
+}
+
+model Comment {
+  authorId     String?
+  createdAt    DateTime      @default(now())
+  id           String        @id @default(cuid())
+  likeCounts   Int           @default(0)
+  nick         String        @default("")
+  postId       String?
+  published    Boolean       @default(true)
+  reportCounts Int           @default(0)
+  text         String
+  updatedAt    DateTime      @default(now())
+  author       User?          @relation(fields: [authorId], references: [id])
+  post         Post?          @relation(fields: [postId], references: [id])
+  commentDis   CommentDis[]
+  commentLike  CommentLike[]
+  penalty      Penalty[]
+}
+
+model CommentDis {
+  authorId  String?
+  commentId String?
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  author    User?      @relation(fields: [authorId], references: [id])
+  comment   Comment?   @relation(fields: [commentId], references: [id])
+}
+
+model CommentLike {
+  authorId  String?
+  commentId String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  author    User?    @relation(fields: [authorId], references: [id])
+  comment   Comment? @relation(fields: [commentId], references: [id])
+}
+
+model Post {
+  allowComments Boolean    @default(true)
+  authorId      String?
+  category      String?
+  createdAt     DateTime   @default(now())
+  hits          Int        @default(0)
+  id            String     @id @default(cuid())
+  isHtml        Boolean?   @default(false)
+  likeCounts    Int        @default(0)
+  postNumber    Int        @default(autoincrement())
+  published     Boolean    @default(true)
+  reportCounts  Int        @default(0)
+  text          String
+  title         String
+  updatedAt     DateTime   @default(now())
+  url           String[]
+  author        User?      @relation(fields: [authorId], references: [id])
+  comment       Comment[]
+  postdis       PostDis[]
+  postLike      PostLike[]
+  penalty       Penalty[]
+}
+
+model PostDis {
+  authorId  String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  postId    String?
+  author    User?    @relation(fields: [authorId], references: [id])
+  post      Post?    @relation(fields: [postId], references: [id])
+}
+
+model PostLike {
+  authorId  String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  postId    String?
+  author    User?    @relation(fields: [authorId], references: [id])
+  post      Post?    @relation(fields: [postId], references: [id])
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  reporter    String
+  suspect     String?
+  report      String?
+  where       String
+  done        Boolean  @default(false)
+  original    String
+  type        String
+  penalty     Penalty[]
+}
+
+model Forbidden {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  subjectId   String? 
+  subject     User?    @relation(fields: [subjectId], references: [id])
+  cause       String?
+  original    String?
+  where       String?
+  term        Float?
+  released    Boolean  @default(false)
+  marshal     String?
+}
+
+model Penalty {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  postId      String? 
+  post        Post?    @relation(fields: [postId], references: [id])
+  commentId   String? 
+  comment     Comment? @relation(fields: [commentId], references: [id])
+  reportId    String? 
+  report      Report?  @relation(fields: [reportId], references: [id])
+  cause       String?
+  original    String?
+  marshal     String?  
+  punishment  String?
+  suspect     String?
+}
+
+model User {
+  id                 String        @id @default(cuid())
+  email              String?       @unique
+  logInId            String        @unique
+  nick               String        @default("none")
+  role               Role          @default(VIEWER)
+  password           String
+  createdAt          DateTime      @default(now())
+  reportCounts       Int           @default(0)
+  isForbidden        Boolean       @default(false)
+  forbidden          Forbidden[] 
+  banList            String[]
+  followList         String[]
+  lastLoggedIn       Float         @default(0)
+  bookmark           BookMark[]
+  claim              Claim[]
+  comment            Comment[]
+  commentDis         CommentDis[]
+  commentLike        CommentLike[]
+  post               Post[]
+  postDis            PostDis[]
+  postLike           PostLike[]
+  banning            User[]        @relation("UserBan", references: [id])
+  banners            User[]        @relation("UserBan", references: [id])
+  following          User[]        @relation("UserFollows", references: [id])
+  followers          User[]        @relation("UserFollows", references: [id])
+  adminPost          AdminPost[]
+  adminComment       AdminComment[]
+  Notice             Notice[]
+}
+
+model AdminPost {
+  id            String     @id @default(cuid())
+  text          String
+  title         String
+  createdAt     DateTime   @default(now())
+  authorId      String?
+  author        User?      @relation(fields: [authorId], references: [id])
+  comment       AdminComment[]
+}
+
+model AdminComment {
+  id           String        @id @default(cuid())
+  text         String
+  createdAt    DateTime      @default(now())
+  authorId     String?
+  author       User?         @relation(fields: [authorId], references: [id])
+  postId       String?
+  post         AdminPost?    @relation(fields: [postId], references: [id])
+}
+
+model Notice {
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  type          String
+  text          String?
+  title         String
+  postNumber    Int         
+  ownerId       String?
+  owner         User?      @relation(fields: [ownerId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  MARSHAL
+  USER
+  VIEWER
+}

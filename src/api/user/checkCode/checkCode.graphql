@@ -1,0 +1,8 @@
+type Mutation {
+  checkCode(
+    type: String!
+    logInId: String
+    email: String!
+    code: String!
+  ): [String]
+}

@@ -1,0 +1,6 @@
+type Mutation {
+  signUp(
+    logInId: String!
+    password: String!
+  ): Boolean!
+}

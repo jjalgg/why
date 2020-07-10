@@ -1,0 +1,5 @@
+scalar null
+
+type Query {
+  countHits(id: String!): null
+}

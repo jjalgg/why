@@ -1,0 +1,3 @@
+type Mutation {
+  createBookMark(postId: String!): Boolean!
+}

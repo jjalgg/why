@@ -1,0 +1,8 @@
+type Mutation {
+  changePass(
+    logInId: String
+    email: String
+    password: String!
+    code: String!
+  ): Boolean!
+}

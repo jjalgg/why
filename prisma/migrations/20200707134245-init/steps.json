@@ -1,0 +1,17 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "User",
+      "field": "adminPost",
+      "arity": "List"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "User",
+      "field": "adminComment",
+      "arity": "List"
+    }
+  ]
+}

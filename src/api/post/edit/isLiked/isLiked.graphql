@@ -1,0 +1,3 @@
+type Query {
+  isLiked(postId: String!): String!
+}

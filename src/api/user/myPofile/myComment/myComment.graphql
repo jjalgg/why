@@ -1,0 +1,3 @@
+type Query {
+  myComment(volume: Int!, cursor: String): [Comment]
+}

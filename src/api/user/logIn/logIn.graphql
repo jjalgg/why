@@ -1,0 +1,9 @@
+type LogInResult {
+  result: Boolean!
+  message: String!
+  wca: String
+}
+
+type Mutation {
+  logIn(logInId: String!, password: String!): LogInResult!
+}

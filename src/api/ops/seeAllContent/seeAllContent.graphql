@@ -1,0 +1,13 @@
+type AllContent {
+  id: String
+  createdAt: String
+  title: String
+  text: String
+  category: String
+  published: Boolean
+  penalty: [Penalty]
+}
+
+type Query {
+  seeAllContent(volume: Int, cursor: String, section: String): [AllContent]
+}

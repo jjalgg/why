@@ -1,0 +1,6 @@
+type Mutation {
+  writeAdminPost(title: String!, text: String!): Boolean!
+}
+type Mutation {
+  writeAdminPost(title: String!, text: String!): Boolean!
+}
